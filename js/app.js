@@ -10,11 +10,11 @@ recipesApp.config(['$routeProvider', '$locationProvider',
         $routeProvider
             .when('/', {
                 templateUrl: 'partials/main.html',
-                controller: 'Recipes'
+                controller: 'RecipesCtrl'
             })
             .when('/recipes/:id', {
                 templateUrl: 'partials/recipe.html',
-                controller: 'RecipeView'
+                controller: 'RecipeViewCtrl'
             })
 
         $locationProvider.html5Mode(false).hashPrefix('!');
