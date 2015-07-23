@@ -3,7 +3,8 @@
 var recipesApp = angular.module('recipesApp', [
     'ngRoute',
     'recipesControllers',
-    'recipesServices'
+    'recipesServices',
+    'recipesDirectives'
 ])
 
 recipesApp.config(['$routeProvider', '$locationProvider',

@@ -1,8 +1,8 @@
 'use strict'
 
-var recipeDirectives = angular.module('recipeDirectives', [])
+var recipesDirectives = angular.module('recipesDirectives', [])
 
-recipeDirectives.directive('recipeMenu', function() {
+recipesDirectives.directive('recipesMenu', function() {
     return {
         restrict: 'A',
         templateUrl: 'partials/menu.html',

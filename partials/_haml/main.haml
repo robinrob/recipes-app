@@ -1,4 +1,4 @@
-%div{'recipe-menu' => '', 'menu-title' => "Recipes App"}
+%div{'recipes-menu' => '', 'menu-title' => "Recipes App"}
 #container.container
   .recipe-label Recipes
   .post-wrapper
@@ -7,4 +7,4 @@
         .recipe-intro-text
           Name: {{ recipe.name }}
         .recipe-read-more
-          %a{:href => '#!recipe/{{recipe._id}}'} Read More
+          %a{:href => '#!recipes/{{recipe.id}}'} Read More
