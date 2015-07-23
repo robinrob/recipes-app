@@ -1,8 +1,8 @@
 'use strict'
 
-var recipeServices = angular.module('recipeServices', ['ngResource'])
+var recipesServices = angular.module('recipesServices', ['ngResource'])
 
-recipeServices.factory('Recipe', ['$resource', function($resource) {
+recipesServices.factory('Recipe', ['$resource', function($resource) {
     return $resource("http://localhost:4567/recipes/:id", {}, {
         get: {method: 'GET', cache: false, isArray: false},
         save: {method: 'POST', cache: false, isArray: false},
@@ -11,7 +11,7 @@ recipeServices.factory('Recipe', ['$resource', function($resource) {
     });
 }])
 
-recipeServices.factory('RecipeList', ['$resource', function($resource) {
+recipesServices.factory('RecipeList', ['$resource', function($resource) {
     return $resource("http://localhost:4567/recipes", {}, {
         get: {method: 'GET', cache: false, isArray: true}
     });

@@ -2,7 +2,8 @@
 
 var recipesApp = angular.module('recipesApp', [
     'ngRoute',
-    'recipesControllers'
+    'recipesControllers',
+    'recipesServices'
 ])
 
 recipesApp.config(['$routeProvider', '$locationProvider',
@@ -12,17 +13,9 @@ recipesApp.config(['$routeProvider', '$locationProvider',
                 templateUrl: 'partials/main.html',
                 controller: 'Recipes'
             })
-            .when('/login', {
-                templateUrl: 'partials/login.html',
-                controller: 'LoginCtrl'
-            })
-            .when('/logout', {
-                templateUrl: 'partials/login.html',
-                controller: 'LogoutCtrl'
-            })
-            .when('/blogPost/:id', {
+            .when('/recipes/:id', {
                 templateUrl: 'partials/recipe.html',
-                controller: 'RecipeViewCtrl'
+                controller: 'RecipeView'
             })
 
         $locationProvider.html5Mode(false).hashPrefix('!');

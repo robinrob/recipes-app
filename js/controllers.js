@@ -1,9 +1,9 @@
 'use strict';
 
-var recipeControllers = angular.module('recipesControllers', [])
+var recipesControllers = angular.module('recipesControllers', [])
 
-recipeControllers.controller('RecipeCtrl', ['$scope', 'RecipeList', '$location',
-    function RecipeCtrl($scope, RecipeList, checkCreds, $location) {
+recipesControllers.controller('Recipes', ['$scope', 'RecipeList', '$location',
+    function RecipeCtrl($scope, RecipeList, $location) {
 
         RecipeList.get({},
             function success(response) {
@@ -16,8 +16,8 @@ recipeControllers.controller('RecipeCtrl', ['$scope', 'RecipeList', '$location',
         );
     }])
 
-recipeControllers.controller('RecipeViewCtrl',
-    ['$scope', '$routeParams', 'Recipe', 'checkCreds',
+recipesControllers.controller('RecipeView',
+    ['$scope', '$routeParams', 'Recipe',
         function RecipeViewCtrl($scope, $routeParams, Recipe) {
             var recipeId = $routeParams.id;
 
