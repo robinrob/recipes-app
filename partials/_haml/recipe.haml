@@ -1,8 +1,22 @@
 %div{'recipes-menu' => '', 'menu-title' => "Recipes App"}
 #container.container
-  .recipe-label Recipe Entry
+  .recipe-label
   .recipe-entry-wrapper
     .recipe-intro-text
-      Name: {{ recipeEntry.name }}
+      %h1 {{ recipeEntry.name }}
+      %caption Origin: {{ recipeEntry.origin }}
     .recipe-entry-outer
-      Origin: {{ recipeEntry.origin }}
+      %h3 Ingredients
+      %ul
+        %div{'ng-repeat' => 'ingredient in recipeEntry.ingredients'}
+          %li
+            {{ ingredient.name }}: {{ ingredient.amount }} {{ ingredient.unit }}
+      %h3 Method
+      %ul
+        %div{'ng-repeat' => 'stage in recipeEntry.method'}
+          %h4
+            {{ stage.description }}
+            %ul
+              %div{'ng-repeat' => 'step in stage.steps'}
+                %li
+                  {{ step }}

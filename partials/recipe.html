@@ -1,12 +1,35 @@
 <div menu-title='Recipes App' recipes-menu=''></div>
 <div class='container' id='container'>
-  <div class='recipe-label'>Recipe Entry</div>
+  <div class='recipe-label'></div>
   <div class='recipe-entry-wrapper'>
     <div class='recipe-intro-text'>
-      Name: {{ recipeEntry.name }}
+      <h1>{{ recipeEntry.name }}</h1>
+      <caption>Origin: {{ recipeEntry.origin }}</caption>
     </div>
     <div class='recipe-entry-outer'>
-      Origin: {{ recipeEntry.origin }}
+      <h3>Ingredients</h3>
+      <ul>
+        <div ng-repeat='ingredient in recipeEntry.ingredients'>
+          <li>
+            {{ ingredient.name }}: {{ ingredient.amount }} {{ ingredient.unit }}
+          </li>
+        </div>
+      </ul>
+      <h3>Method</h3>
+      <ul>
+        <div ng-repeat='stage in recipeEntry.method'>
+          <h4>
+            {{ stage.description }}
+            <ul>
+              <div ng-repeat='step in stage.steps'>
+                <li>
+                  {{ step }}
+                </li>
+              </div>
+            </ul>
+          </h4>
+        </div>
+      </ul>
     </div>
   </div>
 </div>
