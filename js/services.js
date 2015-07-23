@@ -13,5 +13,4 @@ recipesServices.factory('RecipeList', ['$resource', function($resource) {
     return $resource("http://localhost:4567/recipes", {}, {
         get: {method: 'GET', cache: false, isArray: true}
     });
-
 }]);

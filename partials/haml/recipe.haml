@@ -3,17 +3,17 @@
   .recipe-label
   .recipe-entry-wrapper
     .recipe-intro-text
-      %h1 {{ recipeEntry.name }}
-      %caption Origin: {{ recipeEntry.origin }}
+      %h1 {{ recipe.name }}
+      %caption Origin: {{ recipe.origin }}
     .recipe-entry-outer
       %h3 Ingredients
       %ul
-        %div{'ng-repeat' => 'ingredient in recipeEntry.ingredients'}
+        %div{'ng-repeat' => 'ingredient in recipe.ingredients'}
           %li
             {{ ingredient.name }}: {{ ingredient.amount }} {{ ingredient.unit }}
       %h3 Method
       %ul
-        %div{'ng-repeat' => 'stage in recipeEntry.method'}
+        %div{'ng-repeat' => 'stage in recipe.method'}
           %h4
             {{ stage.description }}
             %ul
