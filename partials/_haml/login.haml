@@ -1,0 +1,13 @@
+.blog-login-wrapper
+  %form{"ng-controller" => "LoginCtrl", "ng-submit" => "submit()"}
+    .blog-login-error {{ error }}
+    .blog-login-label
+      %label{:for => "username"} Username:
+    .blog-login-element
+      %input{:name => "username", "ng-model" => "username", :placeholder => "username", :required => "", :type => "text"}/
+    .blog-login-label
+      %label{:for => "password"} Password:
+    .blog-login-element
+      %input{:name => "password", "ng-model" => "password", :placeholder => "password", :required => "", :type => "password"}/
+    .blog-login-button
+      %button.form-button{:type => "submit"} Sign in

@@ -21,8 +21,8 @@ recipesApp.config(['$routeProvider', '$locationProvider',
                 controller: 'LogoutCtrl'
             })
             .when('/blogPost/:id', {
-                templateUrl: 'partials/blogPost.html',
-                controller: 'BlogViewCtrl'
+                templateUrl: 'partials/recipe.html',
+                controller: 'RecipeViewCtrl'
             })
 
         $locationProvider.html5Mode(false).hashPrefix('!');

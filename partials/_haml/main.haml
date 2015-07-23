@@ -1,0 +1,10 @@
+%div{'recipe-menu' => '', 'menu-title' => "Recipes App"}
+#container.container
+  .recipe-label Recipes
+  .post-wrapper
+    %div{'ng-repeat' => 'recipe in recipeList'}
+      .recipe-outer
+        .recipe-intro-text
+          Name: {{ recipe.name }}
+        .recipe-read-more
+          %a{:href => '#!recipe/{{recipe._id}}'} Read More
