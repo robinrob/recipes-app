@@ -1,0 +1,25 @@
+!!!
+%html{:lang => "en", "ng-app" => "blogApp"}
+  %head
+  %title Recipes App
+
+  %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}/
+  %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+
+  %link{:rel => "stylesheet", :href => "css/styles.css"}
+
+  :javascript
+      console.clear()
+
+  %script{:src => "js/libs/jquery.js"}
+  %script{:src => "js/libs/bootstrap.js"}
+  %script{:src => "js/libs/angular.min.js"}
+  %script{:src => "js/libs/angular-route.min.js"}
+  %script{:src => "js/libs/angular-resource.min.js"}
+  %script{:src => "js/libs/angular-cookies.min.js"}
+  %script{:src => "js/app.js"}
+  %script{:src => "js/controllers.js"}
+  %script{:src => "js/services.js"}
+
+  %body
+    %div{"ng-view" => ""}
