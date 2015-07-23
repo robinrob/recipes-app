@@ -2,12 +2,12 @@
 
 var recipesDirectives = angular.module('recipesDirectives', [])
 
-recipesDirectives.directive('recipesMenu', function() {
+recipesDirectives.directive('recipesNav', function() {
     return {
         restrict: 'A',
-        templateUrl: 'partials/menu.html',
+        templateUrl: 'partials/nav.html',
         link: function(scope, el, attrs) {
-            scope.label = attrs.menuTitle
+            scope.label = attrs.navTitle
         }
     }
 })

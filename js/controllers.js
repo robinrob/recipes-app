@@ -2,7 +2,7 @@
 
 var recipesControllers = angular.module('recipesControllers', [])
 
-recipesControllers.controller('Recipes', ['$scope', 'RecipeList', '$location',
+recipesControllers.controller('RecipesCtrl', ['$scope', 'RecipeList', '$location',
     function RecipeCtrl($scope, RecipeList, $location) {
 
         RecipeList.get({},
@@ -16,7 +16,7 @@ recipesControllers.controller('Recipes', ['$scope', 'RecipeList', '$location',
         );
     }])
 
-recipesControllers.controller('RecipeView',
+recipesControllers.controller('RecipeViewCtrl',
     ['$scope', '$routeParams', 'Recipe',
         function RecipeViewCtrl($scope, $routeParams, Recipe) {
             var recipeId = $routeParams.id;
@@ -30,4 +30,3 @@ recipesControllers.controller('RecipeView',
                     console.log("Error:" + JSON.stringify(errorResponse));
                 })
         }]);
-

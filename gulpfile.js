@@ -1,10 +1,11 @@
+var buildDir = './dist'
 var config = {
     paths: {
         haml: {
             src: ['**/_haml/*.haml']
         },
         html: {
-            src: ['**/*.html'],
+            src: ['**/*.html']
         },
         sass: {
             main: '_sass/main.scss',
@@ -14,12 +15,12 @@ var config = {
         css: {
             main: 'styles.css',
             src: '_css/*.css',
-            dest: './css/'
+            dest: buildDir + '/css/'
         },
         js: {
-            //main: 'scripts.js',
+            main: 'scripts.js',
             src: ['./js/*.js'],
-            //dest: './js/'
+            dest: buildDir + '/js/'
         }
     },
     siteUrl: "https://rsmith.io",
@@ -48,11 +49,13 @@ var plumber = require('gulp-plumber')
 var prefix = require('gulp-autoprefixer')
 var task = require('gulp-task')
 var rename = require('gulp-rename')
+var rimraf = require('gulp-rimraf')
 var runSequence = require('run-sequence')
 var sass = require('gulp-sass')
 var shell = require('shelljs/global')
 var uglify = require('gulp-uglifyjs')
 var watch = require('gulp-watch')
+var wrap = require('gulp-wrap')
 
 gulp.task('link', function() {
     var pkgJson = require('./package.json')
@@ -64,12 +67,21 @@ gulp.task('link', function() {
 })
 
 var messages = {
-    jekyllBuild: '<span style="color: grey">Running:</span> $ jekyll build'
+    angularBuild: '<span style="color: grey">Running:</span> $ angular build'
 }
 
 function onError(err) {
     shell.exec('say wanker')
 }
+
+gulp.task('clean', function() {
+    return gulp.src(buildDir + '/**/*', {read: false})
+        .pipe(rimraf())
+})
+
+gulp.task('angular-build', ['clean'], function() {
+
+})
 
 gulp.task('reload', function () {
     browserSync.reload()
@@ -121,9 +133,6 @@ gulp.task('html', function () {
         .pipe(gulp.dest(config.paths.html.dest))
 })
 
-/**
- * Compile files from _scss into both _site/css (for live injecting) and site (for future jekyll builds)
- */
 gulp.task('sass', function () {
     return gulp.src(config.paths.sass.main)
         .pipe(sass({
@@ -156,6 +165,7 @@ gulp.task('css', function (done) {
 
 gulp.task('js-concat', function () {
     return gulp.src(config.paths.js.src)
+        .pipe(wrap('(function(){\n"use strict";\n<%= contents %>\n})();'))
         .pipe(concat(config.paths.js.main))
         .pipe(gulp.dest(config.paths.js.dest))
 })
@@ -171,7 +181,7 @@ gulp.task('js-dev', function (done) {
 })
 
 gulp.task('js', function (done) {
-    runSequence('js-concat', 'js-minify', done)
+    runSequence('js-wrap', 'js-concat', 'js-minify', done)
 })
 
 gulp.task('build', function (done) {
