@@ -1,5 +1,3 @@
-'use strict';
-
 var recipesControllers = angular.module('recipesControllers', [])
 
 recipesControllers.controller('RecipesCtrl', ['$scope', 'RecipeList', '$location',

@@ -1,49 +1,15 @@
-var buildDir = './dist'
-var config = {
-    paths: {
-        haml: {
-            src: ['**/_haml/*.haml']
-        },
-        html: {
-            src: ['**/*.html']
-        },
-        sass: {
-            main: '_sass/main.scss',
-            src: '_sass/*.scss',
-            dest: '_css/'
-        },
-        css: {
-            main: 'styles.css',
-            src: '_css/*.css',
-            dest: buildDir + '/css/'
-        },
-        js: {
-            main: 'scripts.js',
-            src: ['./js/*.js'],
-            dest: buildDir + '/js/'
-        }
-    },
-    siteUrl: "https://rsmith.io",
-    sitemapUrl: "https://rsmith.io/sitemap.xml"
-}
-config.paths.watch = [
-    config.paths.html.src,
-    config.paths.sass.src,
-    config.paths.js.src
-]
-
 var argv = require('yargs').argv
 var browserSync = require('browser-sync')
 var cloudflare = require('gulp-cloudflare')
 var combiner = require('stream-combiner2')
 var concat = require('gulp-concat')
 var cp = require('child_process')
+var folders = require('gulp-folders')
 var gulp = require('gulp')
 var haml = require('gulp-ruby-haml')
 var imagemin = require('gulp-imagemin');
 var minifyCSS = require('gulp-minify-css')
 var minifyHTML = require('gulp-minify-html')
-var ngmin = require('gulp-ngmin')
 var path = require('path')
 var plumber = require('gulp-plumber')
 var prefix = require('gulp-autoprefixer')
@@ -56,6 +22,41 @@ var shell = require('shelljs/global')
 var uglify = require('gulp-uglifyjs')
 var watch = require('gulp-watch')
 var wrap = require('gulp-wrap')
+
+var buildDir = 'dist'
+var stageDir = 'stage'
+var paths = {
+    haml: {
+        src: ['**/haml/*.haml'],
+        dest: buildDir
+    },
+    html: {
+        src: ['**/*.html']
+    },
+    sass: {
+        main: 'sass/main.scss',
+        src: 'sass/*.scss',
+        dest: path.join(stageDir, 'css')
+    },
+    css: {
+        main: 'styles.css',
+        src: path.join('css', '*.css'),
+        dest: path.join(buildDir, 'css')
+    },
+    js: {
+        main: 'scripts.js',
+        dir: 'js',
+        src: [path.join('js', '*.js')],
+        stageSrc: [path.join(stageDir, 'js', '*.js')],
+        libs: [path.join('js', 'libs', '*.js')],
+        dest: path.join(buildDir, 'js')
+    }
+}
+paths.watch = [
+    paths.html.src,
+    paths.sass.src,
+    paths.js.src
+]
 
 gulp.task('link', function() {
     var pkgJson = require('./package.json')
@@ -75,12 +76,8 @@ function onError(err) {
 }
 
 gulp.task('clean', function() {
-    return gulp.src(buildDir + '/**/*', {read: false})
+    return gulp.src([path.join(buildDir, '**', '*'), path.join(stageDir, '**', '*')], {read: false})
         .pipe(rimraf())
-})
-
-gulp.task('angular-build', ['clean'], function() {
-
 })
 
 gulp.task('reload', function () {
@@ -90,7 +87,7 @@ gulp.task('reload', function () {
 gulp.task('browser-sync', function () {
     browserSync({
         server: {
-            baseDir: './'
+            baseDir: buildDir
         },
         browser: 'safari'
     })
@@ -99,60 +96,59 @@ gulp.task('browser-sync', function () {
 function hamlBuild() {
     return combiner(
         haml(),
-        rename(function (path) {
-            path.dirname += '/../'
-        })
-    )
+        rename(function (pathObj) {
+            pathObj.dirname = path.join(pathObj.dirname, '..')
+        }))
 }
 
 gulp.task('haml-watch', function () {
-    gulp.src(config.paths.haml.src, {read: false})
+    gulp.src(paths.haml.src, {read: false})
         .pipe(plumber({
             onError: onError
         }))
-        .pipe(watch(config.paths.haml.src))
+        .pipe(watch(paths.haml.src))
         .pipe(hamlBuild())
-        .pipe(gulp.dest('./'))
+        .pipe(gulp.dest(paths.haml.dest))
 })
 
 gulp.task('haml-build', function () {
-    return gulp.src(config.paths.haml.src)
+    return gulp.src(paths.haml.src)
         .pipe(plumber({
             onError: onError
         }))
         .pipe(hamlBuild())
-        .pipe(gulp.dest('./'))
+        .pipe(gulp.dest(paths.haml.dest))
 })
 
 gulp.task('html', function () {
     // Overwrite original files
-    return gulp.src(config.paths.html.build, {
+    return gulp.src(paths.html.build, {
         base: './'
     })
         .pipe(minifyHTML())
-        .pipe(gulp.dest(config.paths.html.dest))
+        .pipe(gulp.dest(paths.html.dest))
 })
 
 gulp.task('sass', function () {
-    return gulp.src(config.paths.sass.main)
+    return gulp.src(paths.sass.main)
         .pipe(sass({
-            includePaths: [config.paths.sass.src],
+            includePaths: [paths.sass.src],
             onError: onError
         }))
         .pipe(prefix(['last 15 versions', '> 1%', 'ie 8', 'ie 7'], {cascade: true}))
-        .pipe(gulp.dest(config.paths.sass.dest))
+        .pipe(gulp.dest(paths.sass.dest))
 })
 
 gulp.task('css-concat', function () {
-    return gulp.src(config.paths.css.src)
-        .pipe(concat(config.paths.css.main))
-        .pipe(gulp.dest(config.paths.css.dest))
+    return gulp.src(paths.css.src)
+        .pipe(concat(paths.css.main))
+        .pipe(gulp.dest(paths.css.dest))
 })
 
 gulp.task('css-minify', function () {
-    return gulp.src(config.paths.css.dest + '/*.css')
+    return gulp.src(paths.css.dest + '/*.css')
         .pipe(minifyCSS())
-        .pipe(gulp.dest(config.paths.css.dest))
+        .pipe(gulp.dest(paths.css.dest))
 })
 
 gulp.task('css-dev', function (done) {
@@ -163,33 +159,43 @@ gulp.task('css', function (done) {
     runSequence('css-concat', 'css-minify', done)
 })
 
+gulp.task('js-src-wrap', function() {
+    return gulp.src(paths.js.src)
+        .pipe(wrap('(function(){"use strict";<%= contents %>})();'))
+        .pipe(rename(function(pathObj) {
+            pathObj.dirname = pathObj.dirname
+        }))
+        .pipe(gulp.dest(path.join(stageDir, paths.js.dir)))
+})
+
+gulp.task('js-src', ['js-src-wrap'])
+
 gulp.task('js-concat', function () {
-    return gulp.src(config.paths.js.src)
-        .pipe(wrap('(function(){\n"use strict";\n<%= contents %>\n})();'))
-        .pipe(concat(config.paths.js.main))
-        .pipe(gulp.dest(config.paths.js.dest))
+    return gulp.src((paths.js.libs).concat(['!js/libs/angular-mocks.js']).concat(paths.js.stageSrc))
+        .pipe(concat(paths.js.main))
+        .pipe(gulp.dest(path.join(buildDir, paths.js.dir)))
 })
 
 gulp.task('js-minify', function () {
-    return gulp.src(config.paths.js.dest + '/*.js')
+    return gulp.src(path.join(buildDir, paths.js.dir, paths.js.main), {base: './'})
         .pipe(uglify())
-        .pipe(gulp.dest(config.paths.js.dest))
+        .pipe(gulp.dest('.'))
 })
 
 gulp.task('js-dev', function (done) {
-    runSequence('js-concat', done)
+    runSequence('js-src', 'js-concat', done)
 })
 
 gulp.task('js', function (done) {
-    runSequence('js-wrap', 'js-concat', 'js-minify', done)
+    runSequence('js-src', 'js-concat', 'js-minify', done)
 })
 
 gulp.task('build', function (done) {
-    runSequence('haml-build', 'sass', ['css'], 'reload', done)
+    runSequence('clean', 'haml-build', 'sass', ['css', 'js'], 'reload', done)
 })
 
 gulp.task('fast-build', function (done) {
-    runSequence('sass', ['css'], 'reload', done)
+    runSequence('sass', ['css', 'js'], 'reload', done)
 })
 
 gulp.task('dev-build', function (done) {
@@ -197,15 +203,15 @@ gulp.task('dev-build', function (done) {
 })
 
 gulp.task('fast-dev-build', function (done) {
-    runSequence('sass', 'css-dev', 'reload', done)
+    runSequence('sass', ['css-dev', 'js-dev'], 'reload', done)
 })
 
 gulp.task('watch', ['haml-watch'], function () {
-    gulp.watch(config.paths.watch, ['fast-build'])
+    gulp.watch(paths.watch, ['fast-build'])
 })
 
 gulp.task('dev-watch', ['haml-watch'], function () {
-    gulp.watch(config.paths.watch, ['fast-dev-build'])
+    gulp.watch(paths.watch, ['fast-dev-build'])
 })
 
 gulp.task('full', function (done) {

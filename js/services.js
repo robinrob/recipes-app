@@ -1,5 +1,3 @@
-'use strict'
-
 var recipesServices = angular.module('recipesServices', ['ngResource'])
 
 recipesServices.factory('Recipe', ['$resource', function($resource) {

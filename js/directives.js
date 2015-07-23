@@ -1,5 +1,3 @@
-'use strict'
-
 var recipesDirectives = angular.module('recipesDirectives', [])
 
 recipesDirectives.directive('recipesNav', function() {

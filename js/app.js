@@ -1,5 +1,3 @@
-'use strict'
-
 var recipesApp = angular.module('recipesApp', [
     'ngRoute',
     'recipesControllers',
