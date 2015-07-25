@@ -5,6 +5,7 @@
     .recipe-intro-text
       %h1 {{ recipe.name }}
       %caption Origin: {{ recipe.origin }}
+    %div
     .recipe-entry-outer
       %h3 Ingredients
       %ul
@@ -20,3 +21,6 @@
               %div{'ng-repeat' => 'step in stage.steps'}
                 %li
                   {{ step }}
+
+  .recipe-entry-footer
+    %a{'ng-click' => 'edit()'} Edit

@@ -1,0 +1,14 @@
+%div{'recipes-nav' => '', 'nav-title' => "Recipes App"}
+#container.container
+  .recipe-label
+  %form{'ng-submit' => 'submit()'}
+    %div
+      %label Name:
+      %input{:type => 'text'}
+    %div
+      %label Origin:
+      %input{:type => 'text'}
+
+    %hr
+
+    %input{:type => 'submit', :value => 'Save Recipe'}

@@ -15,14 +15,18 @@ recipesControllers.controller('RecipesCtrl', ['$scope', 'RecipeList', '$location
     }])
 
 recipesControllers.controller('RecipeViewCtrl',
-    ['$scope', '$routeParams', 'Recipe',
-        function RecipeViewCtrl($scope, $routeParams, Recipe) {
+    ['$scope', '$routeParams', '$location', 'Recipe',
+        function RecipeViewCtrl($scope, $routeParams, $location, Recipe) {
             var recipeId = $routeParams.id;
+
+            $scope.edit = function() {
+                $location.path('recipes/' + recipeId + '/edit')
+            }
 
             Recipe.get({id: recipeId},
                 function success(response) {
                     console.log("Success:" + JSON.stringify(response));
-                    $scope.recipeEntry = response;
+                    $scope.recipe = response;
                 },
                 function error(errorResponse) {
                     console.log("Error:" + JSON.stringify(errorResponse));
@@ -30,8 +34,8 @@ recipesControllers.controller('RecipeViewCtrl',
         }]);
 
 recipesControllers.controller('RecipeEditCtrl',
-    ['$scope', '$routeParams', 'Recipe',
-        function RecipeViewCtrl($scope, $routeParams, Recipe) {
+    ['$scope', '$routeParams', '$location', 'Recipe',
+        function RecipeViewCtrl($scope, $routeParams, $location, Recipe) {
             var recipeId = $routeParams.id;
 
             Recipe.get({id: recipeId},
@@ -42,6 +46,20 @@ recipesControllers.controller('RecipeEditCtrl',
                 function error(errorResponse) {
                     console.log("Error:" + JSON.stringify(errorResponse));
                 })
+
+            $scope.submit = function() {
+                var putData = {
+                    recipe: $scope.recipe
+                };
+                Recipe.update({id: recipeId}, putData,
+                    function success(response) {
+                        console.log("Success:" + JSON.stringify(response));
+                        $location.path('/recipes/' + recipeId);
+                    },
+                    function error(errorResponse) {
+                        console.log("Error:" + JSON.stringify(errorResponse));
+                    })
+            }
         }]);
 
 
@@ -54,10 +72,10 @@ recipesControllers.controller('NewRecipeCtrl',
                     getToken();
 
                 var postData = {
-                    name: $scope.name,
-                    origin: $scope.origin,
-                    ingredients: $scope.ingredients,
-                    method: $scope.method
+                    recipe: {
+                        "name": $scope.name,
+                        "origin": $scope.origin,
+                    }
                 };
 
                 Recipe.save({}, postData,

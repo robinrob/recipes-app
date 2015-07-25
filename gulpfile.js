@@ -40,7 +40,7 @@ var paths = {
     },
     css: {
         main: 'styles.css',
-        src: path.join('css', '*.css'),
+        src: [path.join('lib-css', '*.css'), path.join(stageDir, 'css', '*.css')],
         dest: path.join(buildDir, 'css')
     },
     js: {
@@ -95,10 +95,8 @@ gulp.task('browser-sync', function () {
 
 function hamlBuild() {
     return combiner(
-        haml(),
-        rename(function (pathObj) {
-            pathObj.dirname = path.join(pathObj.dirname, '..')
-        }))
+        haml()
+    )
 }
 
 gulp.task('haml-watch', function () {

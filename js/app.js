@@ -20,6 +20,10 @@ recipesApp.config(['$routeProvider', '$locationProvider',
                 templateUrl: 'partials/editRecipe.html',
                 controller: 'RecipeEditCtrl'
             })
+            .when('/newRecipe', {
+                templateUrl: 'partials/newRecipe.html',
+                controller: 'NewRecipeCtrl'
+            })
 
         $locationProvider.html5Mode(false).hashPrefix('!');
     }])

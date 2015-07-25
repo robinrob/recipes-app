@@ -1,26 +1,29 @@
 %div{'recipes-nav' => '', 'nav-title' => "Recipes App"}
 #container.container
   .recipe-label
-  %form
-    %div
-      %label Name:
-      %input{:type => 'text', 'ng-model' => 'recipe.name'}
-    %div
-      %label Origin:
-      %input{:type => 'text', 'ng-model' => 'recipe.origin'}
+    .recipe-entry-wrapper
+      %form{'ng-submit' => 'submit()'}
+        %div
+          %label Name:
+          %input{:type => 'text', 'ng-model' => 'recipe.name'}
+        %div
+          %label Origin:
+          %input{:type => 'text', 'ng-model' => 'recipe.origin'}
+        %div
+          %input{:type => 'submit', :value => 'Update Recipe'}
 
-    %h3 Ingredients
-    %div{'ng-repeat' => 'ingredient in recipe.ingredients'}
-      %input{:type => 'text', 'ng-model' => 'ingredient.name'}
-
-    %h3 Method
-    %div{'ng-repeat' => 'stage in recipe.method'}
-      %label Stage:
-      %input{:type => 'text', 'ng-model' => 'stage.description'}
-      %ul
-      %div{'ng-repeat' => 'step in stage.steps'}
-        %li
-          %input{:type => 'text', 'ng-model' => 'step'}
-      %hr
-
-    %input{:type => 'submit', :value => 'Save Recipe', 'ng-click' => 'save(recipe)'}
+        -#.recipe-entry-outer
+        -#  %h3 Ingredients
+        -#  %div{'ng-repeat' => 'ingredient in recipe.ingredients'}
+        -#    %input{:type => 'text', 'ng-model' => 'ingredient.name'}
+        -#    %a{'ng-click' => 'remove(ingredient)'} Remove
+        -#
+        -#  %h3 Method
+        -#  %div{'ng-repeat' => 'stage in recipe.method'}
+        -#    %label Stage:
+        -#    %input{:type => 'text', 'ng-model' => 'stage.description'}
+        -#    %ul
+        -#    %div{'ng-repeat' => 'step in stage.steps'}
+        -#      %li
+        -#        %input{:type => 'text', 'ng-model' => 'step'}
+        -#    %hr
