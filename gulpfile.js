@@ -27,7 +27,7 @@ var buildDir = 'dist'
 var stageDir = 'stage'
 var paths = {
     haml: {
-        src: ['**/haml/*.haml'],
+        src: ['**/*.haml'],
         dest: buildDir
     },
     html: {
