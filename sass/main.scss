@@ -9,25 +9,18 @@ body {
   margin: 5% 0 0 0;
   padding: 0 0 0 0; }
 
-.recipe-label {
+.recipe-label, .recipe-main-label {
+  text-align: center;
+  font-weight: bold;
+  font-size: 16pt;
+}
+
+.recipe-main-label {
   float: left;
   width: 100%;
   margin: 10% 0 0 0;
   padding: 0 0 0 0;
-  text-align: center;
-  font-weight: bold;
-  font-size: 16pt; }
-
-.recipe-outer {
-  float: left;
-  width: 60%;
-  margin: 2% 0 2% 20%;
-  padding: 1%;
-  background: #e0e0e0;
-  border-radius: 6px;
-  -moz-border-radius: 6px;
-  /* Firefox 3.6 and earlier */
-  border: darkgreen solid 1px;}
+}
 
 .recipe-intro-text {
   float: left;
@@ -43,19 +36,34 @@ body {
   padding: 0 0 0 0;
   text-align: center; }
 
-.recipe-entry-wrapper {
-  float: left;
-  width: 100%;
-  margin: 1% 0 0 0;
-  padding: 0 0 0 0; }
-
-.recipe-entry-outer, .recipe-entry-footer {
-  margin: 2% 0 2% 20%;
-}
-.recipe-entry-outer {
-  float: left;
+.recipe-head, .recipe-body, .recipe-footer {
   width: 60%;
   padding: 1%;
+  padding-left: 10%;
+}
+
+.recipe-outer {
+   float: left;
+   width: 60%;
+   margin: 2% 0 2% 20%;
+   padding: 1%;
+   background: #e0e0e0;
+   border-radius: 6px;
+   -moz-border-radius: 6px;
+   /* Firefox 3.6 and earlier */
+   border: darkgreen solid 1px;
+}
+ 
+.recipe-wrapper {
+  width: 100%;
+  text-align: left;
+  margin: 1% 0 0 0;
+  input {
+    width: 100%;
+  }
+}
+
+.recipe-body {
   background: #e0e0e0;
   border-radius: 6px;
   -moz-border-radius: 6px;
@@ -73,7 +81,7 @@ body {
   /* Firefox 3.6 and earlier */
   border: darkgreen solid 1px; }
 
-.recipe-entry-comments {
+.recipe-comments {
   float: left;
   width: 96%;
   margin: 2% 0 2% 2%;

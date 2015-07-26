@@ -80,6 +80,11 @@ gulp.task('clean', function() {
         .pipe(rimraf())
 })
 
+gulp.task('fast-clean', function() {
+    return gulp.src(['!dist/**/*.html', '!dist/partials/', path.join(buildDir, '**', '*'), path.join(stageDir, '**', '*')], {read: false})
+        .pipe(rimraf())
+})
+
 gulp.task('reload', function () {
     browserSync.reload()
 })
@@ -193,15 +198,15 @@ gulp.task('build', function (done) {
 })
 
 gulp.task('fast-build', function (done) {
-    runSequence('sass', ['css', 'js'], 'reload', done)
+    runSequence('fast-clean', 'sass', ['css', 'js'], 'reload', done)
 })
 
 gulp.task('dev-build', function (done) {
-    runSequence('haml-build', 'sass', ['css-dev', 'js-dev'], 'reload', done)
+    runSequence('clean', 'haml-build', 'sass', ['css-dev', 'js-dev'], 'reload', done)
 })
 
 gulp.task('fast-dev-build', function (done) {
-    runSequence('sass', ['css-dev', 'js-dev'], 'reload', done)
+    runSequence('fast-clean', 'sass', ['css-dev', 'js-dev'], 'reload', done)
 })
 
 gulp.task('watch', ['haml-watch'], function () {

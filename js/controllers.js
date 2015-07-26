@@ -47,6 +47,19 @@ recipesControllers.controller('RecipeEditCtrl',
                     console.log("Error:" + JSON.stringify(errorResponse));
                 })
 
+            $scope.removeIngredient = function(ingredient) {
+                $scope.recipe.ingredients = jQuery.grep($scope.recipe.ingredients,
+                    function(value) {
+                        return value != ingredient;
+                    }
+                );
+            }
+
+            $scope.addIngredient = function(newIngredient) {
+                $scope.recipe.ingredients.push({name: newIngredient})
+                $scope.newIngredient = ""
+            }
+
             $scope.submit = function() {
                 var putData = {
                     recipe: $scope.recipe

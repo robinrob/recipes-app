@@ -1,29 +1,52 @@
 %div{'recipes-nav' => '', 'nav-title' => "Recipes App"}
 #container.container
-  .recipe-label
-    .recipe-entry-wrapper
-      %form{'ng-submit' => 'submit()'}
-        %div
-          %label Name:
-          %input{:type => 'text', 'ng-model' => 'recipe.name'}
-        %div
-          %label Origin:
-          %input{:type => 'text', 'ng-model' => 'recipe.origin'}
-        %div
-          %input{:type => 'submit', :value => 'Update Recipe'}
+  .recipe-wrapper
+    %form{'ng-submit' => 'submit()'}
+      .recipe-head.recipe-label
+        .row
+          .col-xs-4
+            %label Name:
+          .col-xs-8
+            %input{:type => 'text', 'ng-model' => 'recipe.name'}
+        .row
+          .col-xs-4
+            %label Origin:
+          .col-xs-8
+            %input{:type => 'text', 'ng-model' => 'recipe.origin'}
+      .recipe-body
+        %h3 Ingredients
+        %div{'ng-repeat' => 'ingredient in recipe.ingredients'}
+          .row
+            .col-xs-8
+              %input{:type => 'text', 'ng-model' => 'ingredient.name'}
+            .col-xs-4
+              %a.crud-control{'ng-click' => 'removeIngredient(ingredient)'} Remove
+        .row
+          .col-xs-8
+            %input{:type => 'text', 'ng-model' => 'newIngredient'}
+          .col-xs-4
+            %a.crud-control{'ng-click' => 'addIngredient(newIngredient)'} Add
 
-        -#.recipe-entry-outer
-        -#  %h3 Ingredients
-        -#  %div{'ng-repeat' => 'ingredient in recipe.ingredients'}
-        -#    %input{:type => 'text', 'ng-model' => 'ingredient.name'}
-        -#    %a{'ng-click' => 'remove(ingredient)'} Remove
-        -#
-        -#  %h3 Method
-        -#  %div{'ng-repeat' => 'stage in recipe.method'}
-        -#    %label Stage:
-        -#    %input{:type => 'text', 'ng-model' => 'stage.description'}
-        -#    %ul
-        -#    %div{'ng-repeat' => 'step in stage.steps'}
-        -#      %li
-        -#        %input{:type => 'text', 'ng-model' => 'step'}
-        -#    %hr
+        %h3 Method
+        %div{'ng-repeat' => 'stage in recipe.method'}
+          .row
+            .col-xs-2
+              %label Stage:
+            .col-xs-6
+              %input{:type => 'text', 'ng-model' => 'stage.description'}
+          %div{'ng-repeat' => 'step in stage.steps'}
+            .row
+              .col-xs-8
+                %input{:type => 'text', 'ng-model' => 'step'}
+              .col-xs-4
+                %a.crud-control{'ng-click' => 'removeStep(step)'} Remove
+
+          .row
+            .col-xs-8
+              %input{:type => 'text', 'ng-model' => 'newStep'}
+            .col-xs-4
+              %a.crud-control{'ng-click' => 'addStep(step)'} Add
+          %hr
+        .row
+          .col-xs-4
+            %input{:type => 'submit', :value => 'Update Recipe'}
