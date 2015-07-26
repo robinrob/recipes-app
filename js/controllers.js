@@ -37,6 +37,7 @@ recipesControllers.controller('RecipeEditCtrl',
     ['$scope', '$routeParams', '$location', 'Recipe',
         function RecipeViewCtrl($scope, $routeParams, $location, Recipe) {
             var recipeId = $routeParams.id;
+            $scope.newIngredient = ""
 
             Recipe.get({id: recipeId},
                 function success(response) {
@@ -55,8 +56,8 @@ recipesControllers.controller('RecipeEditCtrl',
                 );
             }
 
-            $scope.addIngredient = function(newIngredient) {
-                $scope.recipe.ingredients.push({name: newIngredient})
+            $scope.saveIngredient = function() {
+                $scope.recipe.ingredients.push({name: "Robin", amount: 1, unit: "quantity"})
                 $scope.newIngredient = ""
             }
 
@@ -70,34 +71,64 @@ recipesControllers.controller('RecipeEditCtrl',
                         $location.path('/recipes/' + recipeId);
                     },
                     function error(errorResponse) {
-                        console.log("Error:" + JSON.stringify(errorResponse));
+                        console.log("Error:" + angular.toJson(errorResponse));
                     })
             }
         }]);
 
 
 recipesControllers.controller('NewRecipeCtrl',
-    ['$scope', 'Recipe', '$location', '$http', 'getToken',
-        function NewBlogPostCtrl($scope, Recipe, $location, $http, getToken) {
-            $scope.submit = function() {
-                $scope.sub = true;
-                $http.defaults.headers.common['Authorization'] = 'Basic ' +
-                    getToken();
+    ['$scope', '$routeParams', '$location', 'Recipe',
+        function RecipeViewCtrl($scope, $routeParams, $location, Recipe) {
+            var recipeId = $routeParams.id;
+            var newIngredient = {name: "", unit: "", quantity: "" }
+            var newStage = { description: "", steps: [""] }
 
-                var postData = {
-                    recipe: {
-                        "name": $scope.name,
-                        "origin": $scope.origin,
+            $scope.recipe = {name: "", origin: "", ingredients: [$.extend({}, newIngredient)], method: [$.extend({}, newStage)]}
+
+            $scope.addIngredient = function() {
+                $scope.recipe.ingredients.push($.extend({}, newIngredient))
+            }
+
+            $scope.addStage = function() {
+                $scope.recipe.method.push($.extend({}, newStage))
+            }
+
+            $scope.removeIngredient = function(ingredient) {
+                $scope.recipe.ingredients = jQuery.grep($scope.recipe.ingredients,
+                    function(value) {
+                        return value != ingredient;
                     }
-                };
+                );
+            }
 
-                Recipe.save({}, postData,
+            $scope.addStep = function(stage) {
+                var wanker = jQuery.grep($scope.recipe.method,
+                    function(value) {
+                        return value == stage;
+                    }
+                )[0].steps.push("")
+            }
+
+            $scope.removeStage = function(stage) {
+                $scope.recipe.ingredients = jQuery.grep($scope.recipe.method,
+                    function(value) {
+                        return value != stage;
+                    }
+                );
+            }
+
+            $scope.submit = function() {
+                var putData = {
+                    recipe: $scope.recipe
+                };
+                Recipe.update({id: recipeId}, putData,
                     function success(response) {
                         console.log("Success:" + JSON.stringify(response));
-                        $location.path('/');
+                        $location.path('/recipes/' + recipeId);
                     },
                     function error(errorResponse) {
-                        console.log("Error:" + JSON.stringify(errorResponse));
-                    });
-            };
+                        console.log("Error:" + angular.toJson(errorResponse));
+                    })
+            }
         }]);

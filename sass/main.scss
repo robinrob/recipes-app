@@ -4,10 +4,8 @@ body {
   color: #2a6496; }
 
 .post-wrapper {
-  float: left;
   width: 100%;
-  margin: 5% 0 0 0;
-  padding: 0 0 0 0; }
+}
 
 .recipe-label, .recipe-main-label {
   text-align: center;
@@ -16,10 +14,7 @@ body {
 }
 
 .recipe-main-label {
-  float: left;
-  width: 100%;
-  margin: 10% 0 0 0;
-  padding: 0 0 0 0;
+  margin-top: 10%;
 }
 
 .recipe-intro-text {
@@ -39,21 +34,37 @@ body {
 .recipe-head, .recipe-body, .recipe-footer {
   width: 60%;
   padding: 1%;
+}
+
+.recipe-body, .recipe-footer {
   padding-left: 10%;
 }
 
-.recipe-outer {
-   float: left;
-   width: 60%;
-   margin: 2% 0 2% 20%;
-   padding: 1%;
-   background: #e0e0e0;
-   border-radius: 6px;
-   -moz-border-radius: 6px;
-   /* Firefox 3.6 and earlier */
-   border: darkgreen solid 1px;
+.recipe-head {
+  padding-top: 10%;
 }
- 
+
+.recipe-outer, .recipe-main-label {
+  width: 60%;
+}
+
+.recipe-outer, .recipe-view-outer {
+  float: left;
+  padding: 1%;
+  background: #e0e0e0;
+  border-radius: 6px;
+  -moz-border-radius: 6px;
+  /* Firefox 3.6 and earlier */
+  border: darkgreen solid 1px;
+}
+.recipe-outer {
+  margin: 2% 0 2% 0%;
+}
+
+.recipe-view-outer {
+  margin: 2% 0 2% 20%;
+}
+
 .recipe-wrapper {
   width: 100%;
   text-align: left;

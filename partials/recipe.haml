@@ -1,27 +1,23 @@
 %div{'recipes-nav' => '', 'nav-title' => "Recipes App"}
 #container.container
-  .recipe-label
   .recipe-wrapper
-    .recipe-head
-      .recipe-intro-text
-        %h1 {{ recipe.name }}
-        %caption Origin: {{ recipe.origin }}
-      %div
-      .recipe-body
-        %h3 Ingredients
-        %ul
-          %div{'ng-repeat' => 'ingredient in recipe.ingredients'}
-            %li
-              {{ ingredient.name }}: {{ ingredient.amount }} {{ ingredient.unit }}
-        %h3 Method
-        %ul
-          %div{'ng-repeat' => 'stage in recipe.method'}
-            %h4
-              {{ stage.description }}
-              %ul
-                %div{'ng-repeat' => 'step in stage.steps'}
-                  %li
-                    {{ step }}
+    .recipe-head.recipe-label
+      %h1 {{ recipe.name }}
+      %caption Origin: {{ recipe.origin }}
+    .recipe-body
+      %h3 Ingredients
+      %ul
+        %div{'ng-repeat' => 'ingredient in recipe.ingredients'}
+          %li
+            {{ ingredient.name }}: {{ ingredient.amount }} {{ ingredient.unit }}
+      %h3 Method
+      %ul
+        %div{'ng-repeat' => 'stage in recipe.method'}
+          %h4
+            {{ stage.description }}
+            %ul
+              %div{'ng-repeat' => 'step in stage.steps'}
+                %li
+                  {{ step }}
 
-      .recipe-entry-footer
-        %a{'ng-click' => 'edit()'} Edit
+  %a{'ng-click' => 'edit()'} Edit
