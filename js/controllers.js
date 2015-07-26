@@ -103,7 +103,7 @@ recipesControllers.controller('NewRecipeCtrl',
             }
 
             $scope.addStep = function(stage) {
-                var wanker = jQuery.grep($scope.recipe.method,
+                jQuery.grep($scope.recipe.method,
                     function(value) {
                         return value == stage;
                     }
