@@ -1,0 +1,16 @@
+<div nav-title='Recipes App' recipes-nav=''></div>
+<div class='container' id='container'>
+  <div class='post-wrapper'>
+    <div class='recipe-main-label'>Recipes</div>
+    <div ng-repeat='recipe in recipeList'>
+      <div class='recipe-outer'>
+        <div class='recipe-intro-text'>
+          Name: {{ recipe.name }}
+        </div>
+        <div class='recipe-read-more'>
+          <a href='#!recipes/{{recipe.id}}'>Read More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

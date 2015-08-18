@@ -1,4 +1,6 @@
-var _ = require('lodash')
+var jQuery = require ('../bower_components/jquery-ui/jquery-ui.min.js')
+var _ = require('../bower_components/lodash/lodash.min.js')
+require('../bower_components/angular-aside/dist/js/angular-aside.min.js')
 
 var recipesApp = angular.module('recipesApp', [
     'ngRoute',

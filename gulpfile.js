@@ -24,11 +24,11 @@ var buildDir = 'dist'
 var stageDir = 'stage'
 var paths = {
     haml: {
-        src: ['partials/**/*/*.haml'],
+        src: ['index.haml', 'partials/*.haml'],
         dest: buildDir
     },
     html: {
-        build: ['dist/**/*.html'],
+        src: ['index.html, partials/*.html'],
         dest: '.'
     },
     sass: {
@@ -47,7 +47,8 @@ var paths = {
         src: [path.join('js', '*.js')],
         stageSrc: [path.join(stageDir, 'js', '*.js')],
         libs: [path.join('js', 'libs', '*.js')],
-        dest: path.join(buildDir, 'js')
+        dest: path.join(buildDir, 'js'),
+        bower: ['bower_components/jquery/dist/jquery.js', 'bower_components/lodash/lodash.min.js', 'bower_components/angular-aside/dist/js/angular-aside.min.js']
     }
 }
 paths.watch = [
@@ -97,19 +98,21 @@ gulp.task('browser-sync', function () {
 
 function hamlBuild() {
     return combiner(
-        haml()
+        haml(),
+        rename(function (path) {
+        })
     )
 }
 
 gulp.task('haml-watch', function () {
-    gulp.src(paths.haml.src, {read: false})
+    gulp.src(paths.haml.src, {read: false, base: './'})
         .pipe(watch(paths.haml.src))
         .pipe(hamlBuild())
         .pipe(gulp.dest(paths.haml.dest))
 })
 
 gulp.task('haml-build', function () {
-    return gulp.src(paths.haml.src)
+    return gulp.src(paths.haml.src, {base: './'})
         .pipe(hamlBuild())
         .pipe(gulp.dest(paths.haml.dest))
 })
@@ -165,6 +168,12 @@ gulp.task('js-minify', function () {
         .pipe(gulp.dest('.'))
 })
 
+gulp.task('bower-components', function() {
+    return gulp.src(paths.js.bower)
+        .pipe(concat('bower.js'))
+        .pipe(gulp.dest(paths.js.dest))
+})
+
 gulp.task('js', function () {
     // set up the browserify instance on a task basis
     var b = browserify({
@@ -190,11 +199,11 @@ gulp.task('fast-build', function (done) {
 })
 
 gulp.task('dev-build', function (done) {
-    runSequence('clean', 'haml-build', 'sass', ['css-dev', 'js-dev'], 'reload', done)
+    runSequence('clean', 'haml-build', 'sass', ['css-dev', 'js'], 'reload', done)
 })
 
 gulp.task('fast-dev-build', function (done) {
-    runSequence('fast-clean', 'sass', ['css-dev', 'js-dev'], 'reload', done)
+    runSequence('fast-clean', 'sass', ['css-dev', 'js'], 'reload', done)
 })
 
 gulp.task('watch', ['haml-watch'], function () {
@@ -210,5 +219,5 @@ gulp.task('full', function (done) {
 })
 
 gulp.task('default', function (done) {
-    runSequence('fast-dev-build', 'dev-watch', 'browser-sync', done)
+    runSequence('dev-build', 'dev-watch', 'browser-sync', done)
 })

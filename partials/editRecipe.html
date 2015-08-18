@@ -1,0 +1,87 @@
+<div nav-title='Recipes App' recipes-nav=''></div>
+<div class='container' id='container'>
+  <div class='recipe-wrapper'>
+    <form ng-submit='submit()'>
+      <div class='recipe-head recipe-label'>
+        <div class='row'>
+          <div class='col-xs-4'>
+            <label>Name:</label>
+          </div>
+          <div class='col-xs-8'>
+            <input ng-model='recipe.name' type='text'>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col-xs-4'>
+            <label>Origin:</label>
+          </div>
+          <div class='col-xs-8'>
+            <input ng-model='recipe.origin' type='text'>
+          </div>
+        </div>
+      </div>
+      <div class='recipe-body'>
+        <h3>Ingredients</h3>
+        <div ng-repeat='ingredient in recipe.ingredients'>
+          <div class='row'>
+            <div class='col-xs-4'>
+              <input ng-model='ingredient.name' type='text'>
+            </div>
+            <div class='col-xs-2'>
+              <input ng-model='ingredient.amount' type='text'>
+            </div>
+            <div class='col-xs-2'>
+              <input ng-model='ingredient.unit' type='text'>
+            </div>
+            <div class='col-xs-4'>
+              <a class='crud-control' ng-click='removeIngredient(ingredient)'>Remove</a>
+            </div>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col-xs-8'>
+            <input ng-model='newIngredient' type='text'>
+          </div>
+          <div class='col-xs-4'>
+            <a class='crud-control' ng-click='addIngredient()'>Add</a>
+          </div>
+        </div>
+        <h3>Method</h3>
+        <div ng-repeat='stage in recipe.method'>
+          <div class='row'>
+            <div class='col-xs-2'>
+              <label>Stage:</label>
+            </div>
+            <div class='col-xs-6'>
+              <input ng-model='stage.description' type='text'>
+            </div>
+          </div>
+          <div ng-repeat='step in stage.steps'>
+            <div class='row'>
+              <div class='col-xs-8'>
+                <input ng-model='step' type='text'>
+              </div>
+              <div class='col-xs-4'>
+                <a class='crud-control' ng-click='removeStep(step)'>Remove</a>
+              </div>
+            </div>
+          </div>
+          <div class='row'>
+            <div class='col-xs-8'>
+              <input ng-model='newStep' type='text'>
+            </div>
+            <div class='col-xs-4'>
+              <a class='crud-control' ng-click='addStep(step)'>Add</a>
+            </div>
+          </div>
+          <hr>
+        </div>
+        <div class='row'>
+          <div class='col-xs-4'>
+            <input type='submit' value='Update Recipe'>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

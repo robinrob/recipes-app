@@ -1,0 +1,104 @@
+<div nav-title='Recipes App' recipes-nav=''></div>
+<div class='container' id='container'>
+  <div class='recipe-wrapper'>
+    <form ng-submit='submit()'>
+      <div class='recipe-head recipe-label'>
+        <div class='row'>
+          <div class='col-xs-4'>
+            <label>Name:</label>
+          </div>
+          <div class='col-xs-8'>
+            <input ng-model='recipe.name' type='text'>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col-xs-4'>
+            <label>Origin:</label>
+          </div>
+          <div class='col-xs-8'>
+            <input ng-model='recipe.origin' type='text'>
+          </div>
+        </div>
+      </div>
+      <div class='recipe-body'>
+        <h3>Ingredients</h3>
+        <div ng-repeat='ingredient in recipe.ingredients'>
+          <div class='row'>
+            <div class='col-xs-4'>
+              Ingredient
+            </div>
+            <div class='col-xs-2'>
+              Amount
+            </div>
+            <div class='col-xs-4'>
+              Unit
+            </div>
+          </div>
+          <div class='row'>
+            <div class='col-xs-4'>
+              <input ng-model='ingredient.name' type='text'>
+            </div>
+            <div class='col-xs-2'>
+              <input ng-model='ingredient.amount' type='text'>
+            </div>
+            <div class='col-xs-2'>
+              <input ng-model='ingredient.unit' type='text'>
+            </div>
+            <div class='col-xs-4'>
+              <a ng-click='removeIngredient(ingredient)'>Remove</a>
+            </div>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col-xs-4'>
+            <a ng-click='addIngredient()' type='submit' value='Add Ingredient'>Add Ingredient</a>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col-xs-12'>
+            <h3>Method</h3>
+          </div>
+        </div>
+        <div ng-repeat='stage in recipe.method'>
+          <div class='row'>
+            <div class='col-xs-3'>
+              <label>Stage:</label>
+            </div>
+            <div class='col-xs-6'>
+              <input ng-model='stage.description' type='text'>
+            </div>
+          </div>
+          <div ng-repeat='step in stage.steps track by $index'>
+            <div class='row'>
+              <div class='col-xs-3'>
+                Step {{ $index + 1 }}:
+              </div>
+              <div class='col-xs-6'>
+                <input id='{{ $index }}' ng-model='step' type='text'>
+              </div>
+              <div class='col-xs-3'>
+                <a ng-click='removeStep(step)'>Remove</a>
+              </div>
+            </div>
+            <div class='row' ng-if='$last'>
+              <div class='col-xs-3'>
+                <a ng-click='addStep(stage)' type='submit' value='Add Step'>Add Step</a>
+              </div>
+            </div>
+          </div>
+          <div class='row'>
+            <div class='col-xs-offset-9 col-xs-3'>
+              <input ng-click='removeStage(stage)' type='submit' value='Remove Stage'>
+            </div>
+          </div>
+          <hr>
+          <div class='row'>
+            <div class='col-xs-4'>
+              <input ng-click='addStage()' type='submit' value='Add Stage'>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
