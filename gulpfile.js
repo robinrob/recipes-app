@@ -1,25 +1,19 @@
-var argv = require('yargs').argv
 var browserSync = require('browser-sync')
-var cloudflare = require('gulp-cloudflare')
 var combiner = require('stream-combiner2')
 var concat = require('gulp-concat')
-var cp = require('child_process')
-var folders = require('gulp-folders')
 var gulp = require('gulp')
 var haml = require('gulp-ruby-haml')
-var imagemin = require('gulp-imagemin');
 var minifyCSS = require('gulp-minify-css')
 var minifyHTML = require('gulp-minify-html')
 var path = require('path')
 var plumber = require('gulp-plumber')
 var prefix = require('gulp-autoprefixer')
-var task = require('gulp-task')
 var rename = require('gulp-rename')
 var rimraf = require('gulp-rimraf')
 var runSequence = require('run-sequence')
 var sass = require('gulp-sass')
 var shell = require('shelljs/global')
-var uglify = require('gulp-uglifyjs')
+var uglify = require('gulp-uglify')
 var watch = require('gulp-watch')
 var wrap = require('gulp-wrap')
 
@@ -109,7 +103,7 @@ gulp.task('haml-watch', function () {
         .pipe(plumber({
             onError: onError
         }))
-        .pipe(watch(paths.haml.src))
+        .pipe(gulp.watch(paths.haml.src))
         .pipe(hamlBuild())
         .pipe(gulp.dest(paths.haml.dest))
 })
