@@ -1,3 +1,5 @@
+var _ = require('lodash')
+
 var recipesApp = angular.module('recipesApp', [
     'ngRoute',
     'recipesControllers',
