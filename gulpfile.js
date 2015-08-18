@@ -1,4 +1,6 @@
 var browserSync = require('browser-sync')
+var browserify = require('browserify')
+var buffer = require('vinyl-buffer')
 var combiner = require('stream-combiner2')
 var concat = require('gulp-concat')
 var gulp = require('gulp')
@@ -13,6 +15,7 @@ var rimraf = require('gulp-rimraf')
 var runSequence = require('run-sequence')
 var sass = require('gulp-sass')
 var shell = require('shelljs/global')
+var source = require('vinyl-source-stream')
 var uglify = require('gulp-uglify')
 var watch = require('gulp-watch')
 var wrap = require('gulp-wrap')
@@ -21,11 +24,12 @@ var buildDir = 'dist'
 var stageDir = 'stage'
 var paths = {
     haml: {
-        src: ['**/*.haml'],
+        src: ['partials/**/*/*.haml'],
         dest: buildDir
     },
     html: {
-        src: ['**/*.html']
+        build: ['dist/**/*.html'],
+        dest: '.'
     },
     sass: {
         main: 'sass/main.scss',
@@ -47,7 +51,6 @@ var paths = {
     }
 }
 paths.watch = [
-    paths.html.src,
     paths.sass.src,
     paths.js.src
 ]
@@ -100,19 +103,13 @@ function hamlBuild() {
 
 gulp.task('haml-watch', function () {
     gulp.src(paths.haml.src, {read: false})
-        .pipe(plumber({
-            onError: onError
-        }))
-        .pipe(gulp.watch(paths.haml.src))
+        .pipe(watch(paths.haml.src))
         .pipe(hamlBuild())
         .pipe(gulp.dest(paths.haml.dest))
 })
 
 gulp.task('haml-build', function () {
     return gulp.src(paths.haml.src)
-        .pipe(plumber({
-            onError: onError
-        }))
         .pipe(hamlBuild())
         .pipe(gulp.dest(paths.haml.dest))
 })
@@ -156,17 +153,6 @@ gulp.task('css', function (done) {
     runSequence('css-concat', 'css-minify', done)
 })
 
-gulp.task('js-src-wrap', function() {
-    return gulp.src(paths.js.src)
-        .pipe(wrap('(function(){"use strict";<%= contents %>})();'))
-        .pipe(rename(function(pathObj) {
-            pathObj.dirname = pathObj.dirname
-        }))
-        .pipe(gulp.dest(path.join(stageDir, paths.js.dir)))
-})
-
-gulp.task('js-src', ['js-src-wrap'])
-
 gulp.task('js-concat', function () {
     return gulp.src((paths.js.libs).concat(['!js/libs/angular-mocks.js']).concat(paths.js.stageSrc))
         .pipe(concat(paths.js.main))
@@ -179,13 +165,21 @@ gulp.task('js-minify', function () {
         .pipe(gulp.dest('.'))
 })
 
-gulp.task('js-dev', function (done) {
-    runSequence('js-src', 'js-concat', done)
-})
+gulp.task('js', function () {
+    // set up the browserify instance on a task basis
+    var b = browserify({
+        entries: 'js/app.js',
+        debug: true
+    });
 
-gulp.task('js', function (done) {
-    runSequence('js-src', 'js-concat', 'js-minify', done)
-})
+    return b.bundle()
+        .pipe(source('js/app.js'))
+        .pipe(buffer())
+        .pipe(wrap('(function(){"use strict";<%= contents %>})();'))
+        .pipe(gulp.dest(path.join(stageDir, paths.js.dir)))
+        .pipe(concat('bundle.js'))
+        .pipe(gulp.dest(paths.js.dest))
+});
 
 gulp.task('build', function (done) {
     runSequence('clean', 'haml-build', 'sass', ['css', 'js'], 'reload', done)
