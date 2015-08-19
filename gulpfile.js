@@ -47,7 +47,7 @@ var paths = {
     }
 }
 paths.watch = [
-    path.join(paths.html.dest, '**', '*', '*.html'),
+    paths.html.src,
     paths.sass.src,
     paths.js.src
 ]
