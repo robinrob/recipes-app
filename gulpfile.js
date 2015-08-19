@@ -44,7 +44,7 @@ var paths = {
     js: {
         main: 'scripts.js',
         dir: 'js',
-        src: [path.join('js', '*.js')],
+        src: ['js/*.js'],
         stageSrc: [path.join(stageDir, 'js', '*.js')],
         libs: [path.join('js', 'libs', '*.js')],
         dest: path.join(buildDir, 'js'),
@@ -52,7 +52,7 @@ var paths = {
     }
 }
 paths.watch = [
-    paths.html.src,
+    path.join(paths.html.dest, '**', '*', '*.html'),
     paths.sass.src,
     paths.js.src
 ]
@@ -185,7 +185,6 @@ gulp.task('js', function () {
     return b.bundle()
         .pipe(source('js/app.js'))
         .pipe(buffer())
-        .pipe(wrap('(function(){"use strict";<%= contents %>})();'))
         .pipe(gulp.dest(path.join(stageDir, paths.js.dir)))
         .pipe(concat('bundle.js'))
         .pipe(gulp.dest(paths.js.dest))
