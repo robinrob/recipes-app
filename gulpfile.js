@@ -52,7 +52,7 @@ var paths = {
     }
 }
 paths.watch = [
-    paths.haml.src,
+    paths.html.src,
     paths.sass.src,
     paths.js.src
 ]
@@ -67,7 +67,8 @@ gulp.task('link', function() {
 })
 
 var messages = {
-    angularBuild: '<span style="color: grey">Running:</span> $ angular build'
+    angularBuild: '<span style="color: grey">Running:</span> $ angular build',
+    hamlBuild: '<span style="color: grey">Running:</span> $ haml build'
 }
 
 function onError(err) {
@@ -98,10 +99,9 @@ gulp.task('browser-sync', function () {
 })
 
 function hamlBuild() {
+    browserSync.notify(messages.hamlBuild)
     return combiner(
-        haml(),
-        rename(function (path) {
-        })
+        haml()
     )
 }
 
