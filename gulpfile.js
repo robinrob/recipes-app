@@ -52,6 +52,7 @@ var paths = {
     }
 }
 paths.watch = [
+    paths.haml.src,
     paths.sass.src,
     paths.js.src
 ]
