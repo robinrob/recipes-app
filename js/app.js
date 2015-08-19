@@ -1,10 +1,13 @@
-var jQuery = require ('../bower_components/jquery/dist/jquery.min.js')
-var _ = require('../bower_components/lodash/lodash.min.js')
+global.jQuery = require ('../bower_components/jquery/dist/jquery.min.js')
+global._ = require('../bower_components/lodash/lodash.min.js')
 
+require('../bower_components/jquery-ui/jquery-ui.min.js')
 require('../bower_components/angular/angular.min.js')
 require('../bower_components/angular-route/angular-route.min.js')
 require('../bower_components/angular-resource/angular-resource.min.js')
 require('../bower_components/angular-aside/dist/js/angular-aside.min.js')
+require('../bower_components/angular-animate/angular-animate.min.js')
+require('../bower_components/angular-bootstrap/ui-bootstrap.min.js')
 
 require('./services.js')
 require('./controllers.js')

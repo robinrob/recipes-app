@@ -4,7 +4,6 @@ var buffer = require('vinyl-buffer')
 var combiner = require('stream-combiner2')
 var concat = require('gulp-concat')
 var gulp = require('gulp')
-var haml = require('gulp-ruby-haml')
 var minifyCSS = require('gulp-minify-css')
 var minifyHTML = require('gulp-minify-html')
 var path = require('path')
@@ -23,13 +22,9 @@ var wrap = require('gulp-wrap')
 var buildDir = 'dist'
 var stageDir = 'stage'
 var paths = {
-    haml: {
-        src: ['index.haml', 'partials/*.haml'],
-        dest: buildDir
-    },
     html: {
         src: ['index.html, partials/*.html'],
-        dest: '.'
+        dest: buildDir
     },
     sass: {
         main: 'sass/main.scss',
@@ -68,7 +63,6 @@ gulp.task('link', function() {
 
 var messages = {
     angularBuild: '<span style="color: grey">Running:</span> $ angular build',
-    hamlBuild: '<span style="color: grey">Running:</span> $ haml build'
 }
 
 function onError(err) {
@@ -98,32 +92,10 @@ gulp.task('browser-sync', function () {
     })
 })
 
-function hamlBuild() {
-    browserSync.notify(messages.hamlBuild)
-    return combiner(
-        haml()
-    )
-}
-
-gulp.task('haml-watch', function () {
-    gulp.src(paths.haml.src, {read: false, base: './'})
-        .pipe(watch(paths.haml.src))
-        .pipe(hamlBuild())
-        .pipe(gulp.dest(paths.haml.dest))
-})
-
-gulp.task('haml-build', function () {
-    return gulp.src(paths.haml.src, {base: './'})
-        .pipe(hamlBuild())
-        .pipe(gulp.dest(paths.haml.dest))
-})
-
 gulp.task('html', function () {
     // Overwrite original files
-    return gulp.src(paths.html.build, {
-        base: './'
-    })
-        .pipe(minifyHTML())
+    return gulp.src(paths.html.src, { base: './' })
+        //.pipe(minifyHTML())
         .pipe(gulp.dest(paths.html.dest))
 })
 
@@ -191,27 +163,19 @@ gulp.task('js', function () {
 });
 
 gulp.task('build', function (done) {
-    runSequence('clean', 'haml-build', 'sass', ['css', 'js'], 'reload', done)
-})
-
-gulp.task('fast-build', function (done) {
-    runSequence('fast-clean', 'sass', ['css', 'js'], 'reload', done)
+    runSequence('clean', 'html', 'sass', ['css', 'js'], 'reload', done)
 })
 
 gulp.task('dev-build', function (done) {
-    runSequence('clean', 'haml-build', 'sass', ['css-dev', 'js'], 'reload', done)
+    runSequence('clean', 'html', 'sass', ['css-dev', 'js'], 'reload', done)
 })
 
-gulp.task('fast-dev-build', function (done) {
-    runSequence('fast-clean', 'sass', ['css-dev', 'js'], 'reload', done)
+gulp.task('watch', function () {
+    gulp.watch(paths.watch, ['build'])
 })
 
-gulp.task('watch', ['haml-watch'], function () {
-    gulp.watch(paths.watch, ['fast-build'])
-})
-
-gulp.task('dev-watch', ['haml-watch'], function () {
-    gulp.watch(paths.watch, ['fast-dev-build'])
+gulp.task('dev-watch', function () {
+    gulp.watch(paths.watch, ['dev-build'])
 })
 
 gulp.task('full', function (done) {

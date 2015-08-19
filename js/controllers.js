@@ -3,6 +3,24 @@ var recipesControllers = angular.module('recipesControllers', [])
 recipesControllers.controller('RecipesCtrl', ['$scope', 'RecipeList', '$location',
     function RecipeCtrl($scope, RecipeList, $location) {
 
+        $scope.openAside = function(position) {
+            $aside.open({
+                templateUrl: 'partials/sidebar.html',
+                placement: 'right',
+                backdrop: true,
+                controller: function($scope, $modalInstance) {
+                    $scope.ok = function(e) {
+                        $modalInstance.close();
+                        e.stopPropagation();
+                    };
+                    $scope.cancel = function(e) {
+                        $modalInstance.dismiss();
+                        e.stopPropagation();
+                    };
+                }
+            })
+        }
+
         RecipeList.get({},
             function success(response) {
                 console.log("Success:" + JSON.stringify(response));
@@ -132,3 +150,10 @@ recipesControllers.controller('NewRecipeCtrl',
                     })
             }
         }]);
+
+
+recipesControllers.controller('SidebarCtrl', [
+    function() {
+
+    }
+])

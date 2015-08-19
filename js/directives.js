@@ -9,3 +9,10 @@ recipesDirectives.directive('recipesNav', function() {
         }
     }
 })
+
+recipesDirectives.directive('recipesSidebar', function() {
+    return {
+        restrict: 'A',
+        templateUrl: 'partials/sidebar.html'
+    }
+})
