@@ -6,9 +6,9 @@ require('../bower_components/angular-route/angular-route.min.js')
 require('../bower_components/angular-resource/angular-resource.min.js')
 require('../bower_components/angular-aside/dist/js/angular-aside.min.js')
 
-require('services.js')
-require('controllers.js')
-require('directives.js')
+require('./services.js')
+require('./controllers.js')
+require('./directives.js')
 
 var recipesApp = angular.module('recipesApp', [
     'ngRoute',
