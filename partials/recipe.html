@@ -1,0 +1,35 @@
+<div nav-title='Recipes App' recipes-nav=''></div>
+<div class='container' id='container'>
+  <div class='recipe-wrapper'>
+    <div class='recipe-head recipe-label'>
+      <h1>{{ recipe.name }}</h1>
+      <caption>Origin: {{ recipe.origin }}</caption>
+    </div>
+    <div class='recipe-body'>
+      <h3>Ingredients</h3>
+      <ul>
+        <div ng-repeat='ingredient in recipe.ingredients'>
+          <li>
+            {{ ingredient.name }}: {{ ingredient.amount }} {{ ingredient.unit }}
+          </li>
+        </div>
+      </ul>
+      <h3>Method</h3>
+      <ul>
+        <div ng-repeat='stage in recipe.method'>
+          <h4>
+            {{ stage.description }}
+            <ul>
+              <div ng-repeat='step in stage.steps'>
+                <li>
+                  {{ step }}
+                </li>
+              </div>
+            </ul>
+          </h4>
+        </div>
+      </ul>
+    </div>
+  </div>
+  <a ng-click='edit()'>Edit</a>
+</div>

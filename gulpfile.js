@@ -23,7 +23,7 @@ var buildDir = 'dist'
 var stageDir = 'stage'
 var paths = {
     html: {
-        src: ['index.html, partials/*.html'],
+        src: ['index.html', 'partials/*.html'],
         dest: buildDir
     },
     sass: {
