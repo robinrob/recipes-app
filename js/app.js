@@ -15,6 +15,7 @@ require('./directives.js')
 
 var recipesApp = angular.module('recipesApp', [
     'ngRoute',
+    'ui.bootstrap',
     'recipesControllers',
     'recipesServices',
     'recipesDirectives'
@@ -24,8 +25,8 @@ recipesApp.config(['$routeProvider', '$locationProvider',
     function($routeProvider, $locationProvider) {
         $routeProvider
             .when('/', {
-                templateUrl: 'partials/main.html',
-                controller: 'RecipesCtrl'
+                templateUrl: 'partials/sidebarPage.html',
+                controller: 'SidebarPageCtrl'
             })
             .when('/recipes/:id', {
                 templateUrl: 'partials/recipe.html',

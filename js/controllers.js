@@ -1,25 +1,16 @@
 var recipesControllers = angular.module('recipesControllers', [])
 
+recipesControllers.controller('SidebarPageCtrl', ['$scope',
+    function SidebarPageCtrl($scope) {
+        $scope.title = "Robin"
+        $scope.aside = {
+            "title": "Title",
+            "content": "Hello Aside<br />This is a multiline message!"
+        };
+    }])
+
 recipesControllers.controller('RecipesCtrl', ['$scope', 'RecipeList', '$location',
     function RecipeCtrl($scope, RecipeList, $location) {
-
-        $scope.openAside = function(position) {
-            $aside.open({
-                templateUrl: 'partials/sidebar.html',
-                placement: 'right',
-                backdrop: true,
-                controller: function($scope, $modalInstance) {
-                    $scope.ok = function(e) {
-                        $modalInstance.close();
-                        e.stopPropagation();
-                    };
-                    $scope.cancel = function(e) {
-                        $modalInstance.dismiss();
-                        e.stopPropagation();
-                    };
-                }
-            })
-        }
 
         RecipeList.get({},
             function success(response) {
